@@ -77,4 +77,8 @@ Creates:
 * A project called 'inception'
 * A service account in the 'inception' project that is able to create new projects
 
-In order to create new projects, you'll need a service account that can create these projects. A service account can't exist outside of a project, so you need an 'inception' project to put the service account in. Additionally, it's best practice when using Google Cloud to place projects in folders such that they can inherit IAM roles.
+### Why do I need to run this manually?
+
+In order to automatically create new projects, you'll need a service account that can create these projects. **A service account can't exist outside of a project**, so you need an 'inception' project to put the service account in. Additionally, it's best practice when using Google Cloud to place projects in folders such that they can inherit IAM roles.
+
+If this is a fresh Google Cloud account then you'll need to run it as a human user.
