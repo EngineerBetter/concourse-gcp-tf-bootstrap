@@ -61,7 +61,7 @@ At EngineerBetter we don't like manual processes or snowflake infrastructure, so
 
 ## Inception Script
 
-This is entirely optional, and you may already have Service Accounts and Folders set up that you wish to use. **If you don't have these already** then you may want to create them using this script.
+This is entirely optional, and you may already have service accounts and folders set up that you wish to use. **If you don't have these already** then you may want to create them using this script.
 
 ```terminal
 $ ORG_ID=1234567891012 \
