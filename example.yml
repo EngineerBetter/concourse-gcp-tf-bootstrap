@@ -1,0 +1,59 @@
+---
+resource_types:
+  - name: gcs-resource
+    type: docker-image
+    source:
+      repository: frodenas/gcs-resource
+
+resources:
+- name: concourse-gcp-tf-bootstrap
+  type: git
+  source:
+    uri: https://github.com/DanielJonesEB/gcp-pipeline.git
+    branch: master
+- name: tfstate
+  type: gcs-resource
+  source:
+    bucket: {{project_id}}
+    json_key: {{gcp_credentials_json}}
+    versioned_file: ci/terraform.tfstate
+
+jobs:
+- name: setup-ci
+  plan:
+  - get: concourse-gcp-tf-bootstrap
+    trigger: true
+  - task: bootstrap-terraform
+    file: concourse-gcp-tf-bootstrap/tasks/bootstrap.yml
+    input_mapping:
+      gcp-bootstrap: concourse-gcp-tf-bootstrap
+    params:
+      BILLING_ACCOUNT_ID: {{billing_account_id}}
+      BUCKET_LOCATION: {{bucket_location}}
+      FOLDER_NAME: {{folder_name}}
+      GCP_CREDENTIALS_JSON: {{gcp_credentials_json}}
+      ORGANIZATION_ID: {{organization_id}}
+      PROJECT_ID: {{project_id}}
+      PROJECT_NAME: {{project_name}}
+  - put: tfstate
+    params:
+      file: tfstate-out/terraform.tfstate
+
+- name: teardown-ci
+  plan:
+  - get: concourse-gcp-tf-bootstrap
+    passed: [setup-ci]
+  - get: tfstate
+    passed: [setup-ci]
+  - task: bootstrap-terraform
+    file: concourse-gcp-tf-bootstrap/tasks/teardown.yml
+    input_mapping:
+      gcp-bootstrap: concourse-gcp-tf-bootstrap
+    params:
+      BILLING_ACCOUNT_ID: {{billing_account_id}}
+      BUCKET_LOCATION: {{bucket_location}}
+      FOLDER_NAME: {{folder_name}}
+      GCP_CREDENTIALS_JSON: {{gcp_credentials_json}}
+      ORGANIZATION_ID: {{organization_id}}
+      PROJECT_ID: {{project_id}}
+      PROJECT_NAME: {{project_name}}
