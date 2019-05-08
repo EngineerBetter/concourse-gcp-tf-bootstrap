@@ -4,6 +4,8 @@
 1. Concourse task to destroy the GCP project
 1. An [optional script](#inception-script) to create a folder, 'inception' project, and service account that can create new projects
 
+![Image of example pipeline](pipeline.png)
+
 ## Usage - Bootstrap Task
 
 Look at [example.yml](example.yml). You'll need a [gcs-resource](https://github.com/frodenas/gcs-resource/) instance.
