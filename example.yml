@@ -9,7 +9,7 @@ resources:
 - name: concourse-gcp-tf-bootstrap
   type: git
   source:
-    uri: https://github.com/DanielJonesEB/gcp-pipeline.git
+    uri: https://github.com/EngineerBetter/concourse-gcp-tf-bootstrap.git
     branch: master
 - name: tfstate
   type: gcs-resource
