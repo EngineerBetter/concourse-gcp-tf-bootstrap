@@ -21,13 +21,13 @@ jobs:
   - task: bootstrap-terraform
     file: git/tasks/bootstrap.yml
     params:
-      BILLING_ACCOUNT_ID: {{billing_account_id}}
-      BUCKET_LOCATION: {{bucket_location}}
-      FOLDER_NAME: {{folder_name}}
-      GCP_CREDENTIALS_JSON: {{gcp_credentials_json}}
-      ORGANIZATION_ID: {{organization_id}}
-      PROJECT_ID: {{project_id}}
-      PROJECT_NAME: {{project_name}}
+      BILLING_ACCOUNT_ID: ((billing_account_id))
+      BUCKET_LOCATION: ((bucket_location))
+      FOLDER_NAME: ((folder_name))
+      GCP_CREDENTIALS_JSON: ((gcp_credentials_json))
+      ORGANIZATION_ID: ((organization_id))
+      PROJECT_ID: ((project_id))
+      PROJECT_NAME: ((project_name))
   - put: tfstate
     params:
       file: tfstate-out/terraform.tfstate
