@@ -7,13 +7,18 @@ set -euo pipefail
 : "${ORG_ID:?ORG_ID env var must specify the Google Cloud organisation}"
 : "${PROJECT_ID:?PROJECT_ID env var must specify globally unique ID for inception project}"
 
-gcloud alpha resource-manager folders create --display-name="${FOLDER_NAME}" --organization "${ORG_ID}"
-FOLDER_ID="$(gcloud alpha resource-manager folders list --organization 478443594646 --format json | jq -r --arg FOLDER_NAME "spikes" '.[] | select(.displayName==$FOLDER_NAME) | .name | ltrimstr("folders/")')"
+FOLDER_ID="$(gcloud alpha resource-manager folders list --organization 478443594646 --format json | jq -r --arg FOLDER_NAME "${FOLDER_NAME}" '.[] | select(.displayName==$FOLDER_NAME) | .name | ltrimstr("folders/")')"
 
-gcloud projects create "${PROJECT_ID}" --folder "${FOLDER_ID}"
+[[ $FOLDER_ID ]] || \
+  gcloud alpha resource-manager folders create --display-name="${FOLDER_NAME}" --organization "${ORG_ID}"
+
+gcloud projects list | grep -q "${PROJECT_ID}" || \
+  gcloud projects create "${PROJECT_ID}" --folder "${FOLDER_ID}"
+
 gcloud beta billing projects link "${PROJECT_ID}" --billing-account "${BILLING_ACCOUNT_ID}"
 
-gcloud iam service-accounts create inception --display-name "Inception User" --project "${PROJECT_ID}"
+gcloud iam service-accounts list --project "${PROJECT_ID}" | grep -q "Inception User" || \
+  gcloud iam service-accounts create inception --display-name "Inception User" --project "${PROJECT_ID}"
 
 gcloud iam service-accounts keys create "${PROJECT_ID}.json" \
   --iam-account "inception@${PROJECT_ID}.iam.gserviceaccount.com" \
@@ -23,7 +28,7 @@ gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
   --member "serviceAccount:inception@${PROJECT_ID}.iam.gserviceaccount.com" \
   --role roles/viewer
 gcloud projects add-iam-policy-binding "${PROJECT_ID}" \
-  --member "serviceAccount:inception@${PROJECT_ID}.iam.gserviceaccount.com "\
+  --member "serviceAccount:inception@${PROJECT_ID}.iam.gserviceaccount.com" \
   --role roles/storage.admin
 
 gcloud services enable cloudresourcemanager.googleapis.com \
