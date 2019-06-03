@@ -2,7 +2,7 @@ variable "billing_account_id" {}
 variable "bucket_location" {}
 variable "folder_name" {}
 variable "gcp_creds" {}
-variable "organization_id" {}
+variable "parent_folder_id" {}
 variable "project_id" {}
 variable "project_name" {}
 
@@ -12,7 +12,7 @@ provider "google" {
 
 data "google_active_folder" "folder" {
   display_name = "${var.folder_name}"
-  parent       = "organizations/${var.organization_id}"
+  parent       = "folders/${var.parent_folder_id}"
 }
 
 resource "google_project" "automated_project" {
