@@ -65,6 +65,11 @@ At EngineerBetter we don't like manual processes or snowflake infrastructure, so
 
 This is entirely optional, and you may already have service accounts and folders set up that you wish to use. **If you don't have these already** then you may want to create them using this script.
 
+### Pre-requisites
+
+* `gcloud` (tested with version 256)
+* Authenticated as a user with **Folder Viewer** and **Folder Creator** roles
+
 ```terminal
 $ ORG_ID=1234567891012 \
   BILLING_ACCOUNT_ID=DEADD0-D0CAFE-B33F3E \
