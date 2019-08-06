@@ -48,7 +48,7 @@ $ fly -t changeme set-pipeline \
 * `billing_account_id` - billing account number to associate the created project with, of the format `DEADD0-D0CAFE-B33F3E`, which you can find with `gcloud alpha billing accounts list`
 * `bucket_location` - region to store the bucket in, eg `EU`
 * `folder_name` - name of the folder to create projects in, which you can find with `gcloud alpha resource-manager folders list`
-* `gcp_credentials_json` - contents of the service account credentials file. If you need to pass this as via `fly`, you can use `--var "gcp_credentials_json=$(cat creds.json)"`
+* `gcp_credentials_json` - contents of the service account credentials file. If you need to pass this via `fly`, you can use `--var "gcp_credentials_json=$(cat creds.json)"`
 * `organization_id` - numerical ID of the containing organization (`gcloud organizations list`)
 * `project_id` - _identifier_ that you want the project to have, that must be globally unique. [See Google Cloud Project documentation for restrictions](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects).
 * `project_name` - human-readable name for the project to be created
