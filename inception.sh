@@ -7,10 +7,10 @@ set -euo pipefail
 : "${ORG_ID:?ORG_ID env var must specify the Google Cloud organisation}"
 : "${PROJECT_ID:?PROJECT_ID env var must specify globally unique ID for inception project}"
 
-FOLDER_ID="$(gcloud alpha resource-manager folders list --organization "${ORG_ID}" --format json | jq -r --arg FOLDER_NAME "${FOLDER_NAME}" '.[] | select(.displayName==$FOLDER_NAME) | .name | ltrimstr("folders/")')"
+FOLDER_ID="$(gcloud resource-manager folders list --organization "${ORG_ID}" --format json | jq -r --arg FOLDER_NAME "${FOLDER_NAME}" '.[] | select(.displayName==$FOLDER_NAME) | .name | ltrimstr("folders/")')"
 
 [[ $FOLDER_ID ]] || \
-  gcloud alpha resource-manager folders create --display-name="${FOLDER_NAME}" --organization "${ORG_ID}"
+  gcloud resource-manager folders create --display-name="${FOLDER_NAME}" --organization "${ORG_ID}"
 
 gcloud projects list | grep -q "${PROJECT_ID}" || \
   gcloud projects create "${PROJECT_ID}" --folder "${FOLDER_ID}"
