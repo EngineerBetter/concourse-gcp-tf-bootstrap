@@ -78,6 +78,8 @@ $ ORG_ID=1234567891012 \
   ./inception.sh
 ```
 
+You can **optionally provide `PARENT_FOLDER_ID` to place the `inception` project and folder _into_.
+
 Creates:
 
 * A folder with a given name
