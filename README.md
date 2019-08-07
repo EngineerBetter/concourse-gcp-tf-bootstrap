@@ -19,7 +19,9 @@ jobs:
   - get: concourse-gcp-tf-bootstrap
     trigger: true
   - task: bootstrap-terraform
-    file: git/tasks/bootstrap.yml
+    file: concourse-gcp-tf-bootstrap/tasks/bootstrap.yml
+    input_mapping:
+      gcp-bootstrap: concourse-gcp-tf-bootstrap
     params:
       BILLING_ACCOUNT_ID: ((billing_account_id))
       BUCKET_LOCATION: ((bucket_location))
