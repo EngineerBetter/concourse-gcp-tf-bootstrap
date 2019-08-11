@@ -2,6 +2,11 @@ variable "billing_account_id" {}
 variable "bucket_location" {}
 variable "folder_name" {}
 variable "gcp_creds" {}
+
+variable "gcp_flakiness_sleep" {
+  default = "0"
+}
+
 variable "organization_id" {}
 variable "project_id" {}
 variable "project_name" {}
@@ -20,6 +25,11 @@ resource "google_project" "automated_project" {
   project_id      = "${var.project_id}"
   folder_id       = "${data.google_active_folder.folder.name}"
   billing_account = "${var.billing_account_id}"
+
+  # Sometimes bucket create fails with 'inactive billing account' without this sleep
+  provisioner "local-exec" {
+    command = "sleep ${var.gcp_flakiness_sleep}"
+  }
 }
 
 resource "google_storage_bucket" "ci" {

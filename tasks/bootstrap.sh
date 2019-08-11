@@ -42,6 +42,7 @@ pushd concourse-gcp-tf-bootstrap/tf
     TF_VAR_bucket_location="${BUCKET_LOCATION}" \
     TF_VAR_folder_name="${FOLDER_NAME}" \
     TF_VAR_gcp_creds="${GCP_CREDENTIALS_JSON}" \
+    TF_VAR_gcp_flakiness_sleep="${GCP_FLAKINESS_SLEEP}" \
     TF_VAR_organization_id="${ORGANIZATION_ID}" \
     TF_VAR_project_id="${PROJECT_ID}" \
     TF_VAR_project_name="${PROJECT_NAME}" \
