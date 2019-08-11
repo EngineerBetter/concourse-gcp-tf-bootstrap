@@ -55,6 +55,10 @@ $ fly -t changeme set-pipeline \
 * `project_id` - _identifier_ that you want the project to have, that must be globally unique. [See Google Cloud Project documentation for restrictions](https://cloud.google.com/resource-manager/docs/creating-managing-projects#identifying_projects).
 * `project_name` - human-readable name for the project to be created
 
+### Optional Parameters
+
+* `gcp_flakiness_sleep` - sometimes Terraform will be unable to create the GCS bucket with the error `Error 403: he project to be billed is associated with an absent billing account., accountDisabled`. This appears to be some internal eventual consistency issue, and as per Deejay's Conjecture: _"there is no intermittently-failing task that cannot be fixed with a sleep"_.
+
 ## Why?
 
 Terraform and idempotent Concourse pipelines can be combined to continuously deploy infrastructure-as-code. A pipeline should create a complete and free-standing environment without any human intervention. It's best to have one-project-per-environment so that you can cleanly track and delete the resources used therein.
