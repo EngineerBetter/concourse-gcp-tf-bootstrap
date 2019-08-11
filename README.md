@@ -57,7 +57,7 @@ $ fly -t changeme set-pipeline \
 
 ### Optional Parameters
 
-* `gcp_flakiness_sleep` - sometimes Terraform will be unable to create the GCS bucket with the error `Error 403: he project to be billed is associated with an absent billing account., accountDisabled`. This appears to be some internal eventual consistency issue, and as per Deejay's Conjecture: _"there is no intermittently-failing task that cannot be fixed with a sleep"_.
+* `gcp_flakiness_sleep` - sometimes Terraform will be unable to create the GCS bucket with the error `Error 403: the project to be billed is associated with an absent billing account., accountDisabled`. This appears to be some internal eventual consistency issue, and as per Deejay's Conjecture: _"there is no intermittently-failing task that cannot be fixed with a sleep"_.
 
 ## Why?
 
