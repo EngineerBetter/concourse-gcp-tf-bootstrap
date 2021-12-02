@@ -4,7 +4,7 @@ image_resource:
   type: docker-image
   source:
     repository: engineerbetter/pcf-ops
-    tag: 1.1028.0
+    tag: 1.1278.0
 
 inputs:
 - name: concourse-gcp-tf-bootstrap
