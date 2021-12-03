@@ -6,7 +6,7 @@
 
 ![Image of example pipeline](pipeline.png)
 
-## Usage - Bootstrap Task
+## Usage: Bootstrap Task
 
 Look at [example.yml](example.yml). You'll need a [gcs-resource](https://github.com/frodenas/gcs-resource/) instance.
 
@@ -97,3 +97,33 @@ Creates:
 In order to automatically create new projects, you'll need a service account that can create these projects. **A service account can't exist outside of a project**, so you need an 'inception' project to put the service account in. Additionally, it's best practice when using Google Cloud to place projects in folders such that they can inherit IAM roles.
 
 If this is a fresh Google Cloud account then you'll need to run it as a human user.
+
+## Troubleshooting
+
+If you can't see your problem below, [create an issue](https://github.com/EngineerBetter/concourse-gcp-tf-bootstrap/issues).
+
+
+### Terraform: 'Error: Could not load plugin'
+
+Users who first ran the bootstrap task before [this commit](https://github.com/EngineerBetter/concourse-gcp-tf-bootstrap/commit/c3e25c2e78fbb25bce5b0e47586373f7486b9d70) on 2 December 2021 will face an error similar to the below when their pipeline next runs the task:
+
+```
+Error: Could not load plugin
+
+
+Plugin reinitialization required. Please run "terraform init".
+
+...
+Failed to instantiate provider "registry.terraform.io/-/google" to obtain
+schema: unknown provider "registry.terraform.io/-/google"
+```
+
+Solving this requires a one-off manual intervention. Locate your state file, which will be in a GCP bucket in the project whose name you provided to the task as `PROJECT_NAME` (see [here](#usage-bootstrap-task)). The bucket will be named after your `PROJECT_ID`.
+
+Save terraform.tfstate locally, and then run the following `terraform` command from the same directory:
+
+```bash
+$ terraform state replace-provider 'registry.terraform.io/-/google' 'registry.terraform.io/hashicorp/google'
+```
+
+Re-upload the file to the same path in your bucket, overwriting the state file that was already there. You should now be able to re-run the pipeline task without issues.
